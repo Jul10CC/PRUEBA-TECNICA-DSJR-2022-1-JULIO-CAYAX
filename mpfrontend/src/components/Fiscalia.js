@@ -9,6 +9,8 @@ export default function Fiscalia() {
     const [name, setName] = React.useState('')
     const [address, setAddress] = React.useState('')
     const [number, setNumber] = React.useState('')
+    //Ver todos los datos
+    const [fiscalias, setFiscalias] = React.useState([])
 
     const handleClick = (e)=>{
         e.preventDefault()
@@ -23,6 +25,14 @@ export default function Fiscalia() {
             console.log("Nueva Ficalia Agregada")
         })
     }
+
+    React.useEffect(()=>{
+        fetch("http://localhost:8080/fiscalia/getAll")
+        .then(res=>res.json())
+        .then((result)=>{
+            setFiscalias(result);
+        }
+    )},[])
     return (
         <Box
             component="form"
@@ -48,7 +58,16 @@ export default function Fiscalia() {
                 /><br></br><br></br>
                 <Button variant="contained" onClick={handleClick}>Guardar</Button>
             </Paper>
-
+            <h1>Fiscalías</h1>
+            <Paper elevation={3} style={paperStyle}>
+            {fiscalias.map(fiscalia=>(
+                <Paper elevation={6} style={{margin: "10px", padding:"15px", textAlign:"left"}} key={fiscalia.id}>
+                <h4>Nombre: </h4>{fiscalia.name}<br/>
+                Dirección: {fiscalia.address}<br/>
+                Número: {fiscalia.number}<br/>
+                </Paper>
+            ))}
+            </Paper>
         </Box>
     );
 }
