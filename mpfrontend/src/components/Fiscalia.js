@@ -9,6 +9,20 @@ export default function Fiscalia() {
     const [name, setName] = React.useState('')
     const [address, setAddress] = React.useState('')
     const [number, setNumber] = React.useState('')
+
+    const handleClick = (e)=>{
+        e.preventDefault()
+        const fiscalia = {name, address, number}
+        console.log(fiscalia)
+        //Agregar Ruta Backend
+        fetch("http://localhost:8080/fiscalia/add", {
+            method:"POST",
+            headers: {"Content-Type": "application/json"},
+            body:JSON.stringify(fiscalia)
+        }).then(()=>{
+            console.log("Nueva Ficalia Agregada")
+        })
+    }
     return (
         <Box
             component="form"
@@ -32,10 +46,7 @@ export default function Fiscalia() {
                     value={number}
                     onChange={(e) => setNumber(e.target.value)}
                 /><br></br><br></br>
-                <Button variant="contained">Guardar</Button>
-                {name}
-                {address}
-                {number}
+                <Button variant="contained" onClick={handleClick}>Guardar</Button>
             </Paper>
 
         </Box>
