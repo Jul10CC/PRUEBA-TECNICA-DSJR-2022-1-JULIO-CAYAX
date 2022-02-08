@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Paper, Button } from '@mui/material/';
 
+
 export default function Fiscalia() {
     const paperStyle = { padding: '50px 20px', width: 600, margin: "20px auto" }
     //Ingreso de variables
@@ -12,27 +13,28 @@ export default function Fiscalia() {
     //Ver todos los datos
     const [fiscalias, setFiscalias] = React.useState([])
 
-    const handleClick = (e)=>{
+    const handleClick = (e) => {
         e.preventDefault()
-        const fiscalia = {name, address, number}
+        const fiscalia = { name, address, number }
         console.log(fiscalia)
         //Agregar Ruta Backend
         fetch("http://localhost:8080/fiscalia/add", {
-            method:"POST",
-            headers: {"Content-Type": "application/json"},
-            body:JSON.stringify(fiscalia)
-        }).then(()=>{
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(fiscalia)
+        }).then(() => {
             console.log("Nueva Ficalia Agregada")
         })
     }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         fetch("http://localhost:8080/fiscalia/getAll")
-        .then(res=>res.json())
-        .then((result)=>{
-            setFiscalias(result);
-        }
-    )},[])
+            .then(res => res.json())
+            .then((result) => {
+                setFiscalias(result);
+            }
+            )
+    }, [])
     return (
         <Box
             component="form"
@@ -58,15 +60,21 @@ export default function Fiscalia() {
                 /><br></br><br></br>
                 <Button variant="contained" onClick={handleClick}>Guardar</Button>
             </Paper>
-            <h1>Fiscalías</h1>
+            <h1>Listado General</h1>
             <Paper elevation={3} style={paperStyle}>
-            {fiscalias.map(fiscalia=>(
-                <Paper elevation={6} style={{margin: "10px", padding:"15px", textAlign:"left"}} key={fiscalia.id}>
-                <h4>Nombre: </h4>{fiscalia.name}<br/>
-                Dirección: {fiscalia.address}<br/>
-                Número: {fiscalia.number}<br/>
-                </Paper>
-            ))}
+                {fiscalias.map(fiscalia => (
+                    <Paper elevation={6} style={{ margin: "10px", padding: "15px", textAlign: "left" }} key={fiscalia.id}>
+                        <h3 style={{ color: "#1B2668" }}>Nombre: {fiscalia.name}</h3>
+                        <h4 style={{ color: "#0087D1" }}>Dirección: {fiscalia.address}</h4>
+                        <h4 style={{ color: "#091F92" }}>Número: {fiscalia.number}</h4>
+                        <Button variant="outlined" color="success">
+                            Editar
+                        </Button>&nbsp;
+                        <Button variant="outlined" color="error">
+                            Eliminar
+                        </Button>&nbsp;
+                    </Paper>
+                ))}
             </Paper>
         </Box>
     );
