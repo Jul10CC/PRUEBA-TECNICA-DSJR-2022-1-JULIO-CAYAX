@@ -26,7 +26,7 @@ export default function Fiscalia() {
             console.log("Nueva Ficalia Agregada")
         })
     }
-
+    //Listar todo
     React.useEffect(() => {
         fetch("http://localhost:8080/fiscalia/getAll")
             .then(res => res.json())
